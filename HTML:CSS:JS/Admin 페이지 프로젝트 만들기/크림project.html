@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<br>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <title>Admin Page</title>
+</head>
+<body>
+  <div class="container text-center mt-5">
+    <h2>현재 날짜와 시간</h2>
+    <div class="alert alert-primary mt-3" id="datetime">
+        <!-- 날짜와 시간이 표시될 자리 -->
+    </div>
+    <button class="btn btn-success mt-2" onclick="updateDateTime()">새로고침</button>
+</div>
+<div>
+<script>
+    function updateDateTime() {
+        const now = new Date();
+        const formattedDateTime = now.toLocaleString('ko-KR', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric', 
+            weekday: 'long', 
+            hour: '2-digit', 
+            minute: '2-digit', 
+            second: '2-digit' 
+        });
+
+        document.getElementById('datetime').innerHTML = formattedDateTime;
+    }
+
+    // 페이지 로드 시 자동 업데이트
+    window.onload = updateDateTime;
+</script>
+</div>
+<div>
+  &nbsp;<button type="button" class="btn btn-light">라이트 모드</button>
+  <button type="button" class="btn btn-dark">다크 모드</button>
+</div>
+  </div>
+  
+  <div class="container mt-3">
+    <h3 class="mt-5 mb-3">신규 등록 상품</h3>
+    <form class="row row-cols-lg-auto g-3 align-items-center">      
+      <div class="col-12">
+        <label class="visually-hidden" for="inlineFormSelectPref">Preference</label>
+      </div>
+      <div class="col-2">
+      <select class="form-select" id="inlineFormSelectPref" name="category_data_table">
+        <option selected>성별</option>
+        <option value="1">남자</option>
+        <option value="2">여자</option>
+      </select>
+      </div>
+      <div class="col-2">
+        <select class="form-select" id="inlineFormSelectPref" name="category_data_table">
+          <!-- 셀렉트요소의 name="category_data_table"은 지우거나 변경하면 안돼요 -->
+          <!-- 카테고리 셀렉트 코드를 넣어주세요 완료-->
+          <option selected>카테고리</option>
+          <option value="1">상의</option>
+          <option value="2">하의</option>
+          <option value="3">신발</option>
+          <option value="4">패션잡화</option>
+        </select>
+      </div>
+      <div class="col-3">
+        <!-- input 입력창 코드를 넣어주세요 완료-->
+        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="제품명을 입력하세요">
+      </div>
+      <div class="col-auto">
+        <!-- 조회 버튼 코드를 넣어주세요 완료-->
+        <button type="button" class="btn btn-primary">조회</button>
+      </div>
+    </form>
+
+    <div class="container mt-3">
+      <table class="table table-sm text-center">
+        <thead>
+          <!-- 열의 속성값을 나타내는 코드를 작성해주세요 (예 : 카테고리, 브랜드, 상품명, 가격) -->
+          <div class="container">
+            <div class="row align-items-start">
+              <div class="col order-1">
+              <strong>카테고리</strong>
+              </div>
+              <div class="col order-2">
+              <strong>브랜드</strong>
+              </div>
+              <div class="col order-3 text-center">
+              <strong>상품명</strong>
+              </div>
+              <div class="col order-4 text-center">
+              <strong>가격</strong>
+              </div>
+            </div>
+          </div>
+        </thead>
+        <tbody id="product_data_Table">
+          <!-- tbody요소의 id="product_data_Table" 는 지우거나 변경하면 안돼요! -->
+          <!-- 제품 데이터가 여기 추가됩니다. -->
+        </tbody>
+      </table>
+    </div>
+    <!-- 페이지 네이션 코드를 넣어주세요 완료-->
+    <nav aria-label="...">
+      <ul class="pagination justify-content-center">
+      <ul class="pagination">
+        <li class="page-item disabled">
+          <a class="page-link">이전</a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item active" aria-current="page">
+          <a class="page-link" href="#">2</a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+          <a class="page-link" href="#">다음</a>
+        </li>
+      </ul>
+    </nav>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <script>
+    // 크롤링한 데이터를 아래와 같은 형태의 객체 배열로 가정합니다.
+    // 추후 데이터베이스에 있는 데이터를 쿼리문으로 불러 올 수 있게 쿼리를 작성해 볼 수 있음
+
+    // 제품 데이터
+    const product_data = [
+      { category: "상의", brand: 'Supreme', product: '슈프림 박스로고 후드티', price: '390,000' },
+      { category: "하의", brand: 'DIESEL', product: '디젤 트랙 팬츠', price: '188,000' },
+      { category: "신발", brand: 'Nike', product: '에어포스 1', price: '137,000' },
+      { category: "패션잡화", brand: 'Music&Goods', product: '빵빵이 키링', price: '29,000' },
+      // ...
+    ];
+
+    // 제품 테이블에 데이터 추가
+    const product_data_Table = document.getElementById('product_data_Table');
+
+    // 초기 데이터 로딩
+    product_data.forEach((item) => {
+      const row = product_data_Table.insertRow();
+      row.insertCell(0).innerHTML = item.category;
+      row.insertCell(1).innerHTML = item.brand;
+      row.insertCell(2).innerHTML = item.product;
+      row.insertCell(3).innerHTML = item.price;
+    });
+  </script>
+
+  <signform>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <div class="container mt-5 text-center">
+    <!-- 회원가입 버튼 -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signupModal">
+        회원가입
+    </button>
+</div>
+
+<!-- 회원가입 모달 -->
+<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="signupModalLabel">회원가입</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- 회원가입 폼 -->
+                <form id="signform">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">아이디 (필수)</label>
+                        <input type="text" class="form-control" id="username" placeholder="아이디">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">비밀번호 (필수)</label>
+                        <input type="password" class="form-control" id="password" placeholder="비밀번호">
+                        <span>* 영문, 숫자, 특수문자를 포함한 8자 이상 30자 미만이어야 합니다.</span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">비밀번호 확인 (필수)</label>
+                        <input type="password" class="form-control" id="confirmPassword" placeholder="비밀번호 확인">
+                    </div>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">이름 (필수)</label>
+                        <input type="text" class="form-control" id="name" placeholder="사용자 이름">
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">전화번호 (필수)</label>
+                        <input
+                        type="tel" 
+                        class="form-control" 
+                        id="phone" 
+                        placeholder="휴대전화 번호" 
+                        pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}"
+                        >
+                    </div>
+                    <div class="mb-3">
+                      <label for="gender" class="form-label">성별</label>
+                    <div class="gender_wrap">
+                      <input type="radio" name="gender" value="M">&nbsp;<span>남자</span>&nbsp;&nbsp;
+                      <input type="radio" name="gender" value="W">&nbsp;<span>여자</span>
+                    </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">이메일 (선택사항)</label>
+                        <input type="email" class="form-control" id="email" placeholder="@이메일">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">가입하기</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</signform>
+
+  <script>
+    document.getElementById("signform").addEventListener("submit", function(event) {
+        event.preventDefault(); // 기본 폼 제출 방지
+
+        // 간단한 유효성 검사 (아이디 유효성 검사)
+        const username = document.getElementById("username").value;
+
+        if (username.length < 5) {
+          alert("아이디는 5글자 이상이어야 합니다.")
+          return;
+        }
+
+        // 비밀번호 유효성 검사
+        
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirmPassword").value;
+    
+        if (password !== confirmPassword) {
+            alert("비밀번호가 일치하지 않습니다.");
+            return;
+        }
+        if (password.length < 8) {
+          alert("비밀번호는 8자 이상이어야 합니다.");
+          return;
+        }
+
+        if (password.length > 30) {
+          alert("비밀번호는 30자 미만이어야 합니다.");
+          return;
+        }
+
+        // 사용자 이름 유효성 검사
+        const name = document.getElementById("name").value;
+
+        if (name.length > 4) {
+          alert("정확한 이름을 입력해주세요.")
+          return;
+        }
+        
+        // 사용자 전화번호 유효성 검사
+        const phone = document.getElementById("phone").value;
+
+        if (phone.length > 13) {
+          alert("정확한 전화번호를 입력해주세요.")
+          return;
+        }
+        
+        if (phone.length < 13) {
+          alert("정확한 전화번호를 입력해주세요.")
+          return;
+        }
+        // 성별 체크 유효성 검사
+        const gender = document.getElementsByName("gender");
+
+        // 사용자 이메일 유효성 검사
+        const email = document.getElementById("email").value;
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+        // 회원가입 완료 후 success.html 페이지로 이동
+          window.location.href = "success.html"
+      
+    });
+  </script>
+  
+</body>
+</html>
