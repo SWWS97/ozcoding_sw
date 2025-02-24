@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>애플리케이션</title>
+</head>
+<body>
+    <h1>사용자 목록</h1>
+
+    <ul>
+        {% for user in users %}  <!-- app.py에서 가져온 users 데이터를 user라는 변수에 for문으로 담아줌-->
+        <li>{{ user }}</li>
+        {% endfor %}            <!-- for문 종료 -->
+    </ul>
+</body>
+</html>
